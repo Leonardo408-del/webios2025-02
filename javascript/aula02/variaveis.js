@@ -1,0 +1,5 @@
+let nomeCompletoDoUsuarioAtual ="Leonardo Ryan Alves Pereira"
+const Data_de_nascimeto ="2007-03-12"
+const Idade ="18 Anos"
+const Ano_de_nascimento ="2007"
+var Ano_atual ="2025"

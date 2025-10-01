@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo do Dino</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+    }
+    #game {
+      width: 600px;
+      height: 200px;
+      border: 2px solid black;
+      margin: 30px auto;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+    #dino {
+      width: 40px;
+      height: 40px;
+      background: green;
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+    }
+    #cacto {
+      width: 30px;
+      height: 50px;
+      background: brown;
+      position: absolute;
+      bottom: 0;
+      right: -30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🦖 Jogo do Dino</h1>
+  <p>Pressione <b>ESPAÇO</b> para pular</p>
+  <div id="game">
+    <div id="dino"></div>
+    <div id="cacto"></div>
+  </div>
+  <p>Pontos: <span id="pontos">0</span></p>
+
+  <script>
+    const dino = document.getElementById("dino");
+    const cacto = document.getElementById("cacto");
+    const pontosEl = document.getElementById("pontos");
+    let pulando = false;
+    let pontos = 0;
+
+    // Pulo
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && !pulando) {
+        pular();
+      }
+    });
+
+    function pular() {
+      pulando = true;
+      let pos = 0;
+      let subir = setInterval(() => {
+        if (pos >= 80) { // altura máxima
+          clearInterval(subir);
+          let descer = setInterval(() => {
+            if (pos <= 0) {
+              clearInterval(descer);
+              pulando = false;
+            }
+            pos -= 5;
+            dino.style.bottom = pos + "px";
+          }, 20);
+        }
+        pos += 5;
+        dino.style.bottom = pos + "px";
+      }, 20);
+    }
+
+    // Movimento do cacto
+    function moverCacto() {
+      let pos = 600;
+      cacto.style.left = pos + "px";
+
+      let intervalo = setInterval(() => {
+        if (pos < -30) {
+          pos = 600;
+          pontos++;
+          pontosEl.textContent = pontos;
+        }
+
+        // colisão
+        if (pos < 90 && pos > 50 && parseInt(dino.style.bottom) < 50) {
+          alert("💀 Fim de jogo! Pontos: " + pontos);
+          pontos = 0;
+          pontosEl.textContent = pontos;
+          pos = 600;
+        }
+
+        pos -= 5;
+        cacto.style.left = pos + "px";
+      }, 20);
+    }
+
+    moverCacto();
+  </script>
+</body>
+</html>
